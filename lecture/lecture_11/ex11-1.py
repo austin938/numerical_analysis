@@ -1,6 +1,7 @@
 import numpy as np
 from physics import initialize, update
 path = f"lecture/lecture_11/data//" 
+method = 'rk4'
 
 msun = 2.0e33 
 G = 6.67428e-8
@@ -14,11 +15,11 @@ separation = 3.0 * au
 
 
 step  = 0
-dt    = 0.0001*year
+dt    = 0.001*year
 time  = 0.0
 tmax  = 10.0*year
 noutput = 500 # number of snapshots
-ninterval = tmax/dt/noutput # interval between file outputs
+ninterval = int(tmax/dt/noutput) # interval between file outputs
 
 
 # set initial conditions of the two stars
@@ -34,7 +35,7 @@ with open(path+'binary_001.csv','w') as f1:
         while time <= tmax:
 
 
-            update(dt, star1, star2)
+            update(time, dt, star1, star2, method)
             time += dt
     
             if step % ninterval == 0:

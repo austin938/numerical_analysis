@@ -3,12 +3,13 @@ import matplotlib.pyplot as plt
 import os
 import glob
 
-dt = 0.0001
+dt = 0.001
+method = 'euler'
 
 # some path
 path = f"lecture/lecture_11/data//"
 directory = "lecture/lecture_11/plot"
-filename = f'binary_{dt}.png'
+filename = f'binary_{dt}_{method}.png'
 
 # Pattern to match all CSV files
 file_pattern = path + f'*.csv' 
@@ -46,7 +47,7 @@ for file in csv_files:
 # set the y axis positive
 plt.xlabel('x(cm)')
 plt.ylabel('y(cm)')
-plt.title(f'orbits of binary systems with dt={dt}')
+plt.title(f'orbits of binary systems with dt={dt} by {method} method')
 plt.legend(loc='best')
 plt.grid('True')
 

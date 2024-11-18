@@ -1,5 +1,5 @@
 import numpy as np
-
+from solver import euler, rk2, rk4
 
 msun = 2.0e33 
 G = 6.67428e-8
@@ -39,19 +39,30 @@ def initialize(m1, m2, separation):
 
     return star1, star2
     
-def update(dt, star1, star2):
+def update(time, dt, star1, star2, method):
+    yin = [star1.x, star1.y, star1.vx, star1.vy, star2.x, star2.y, star2.vx, star2.vy]
+
     
-    # Update x, y, vx, vy of the two stars using the Euler's method
-    star1.x  += star1.vx*dt
-    star1.y  += star1.vy*dt
-    star1.vx += star1.ax*dt
-    star1.vy += star1.ay*dt
-    star2.x  += star2.vx*dt
-    star2.y  += star2.vy*dt
-    star2.vx += star2.ax*dt
-    star2.vy += star2.ay*dt
+    if method == 'euler':
+        yout = euler(yin, star1, star2, time, dt, func)
+    elif method == 'rk2':
+        yout = rk2(yin, star1, star2, time, dt, func)
+    elif method == 'rk4':
+        yout = rk4(yin, star1, star2, time, dt, func)
+    else:
+        raise SystemExit("Error: method "+method+" is not supported!")
+
+    star1.x = yout[0]
+    star1.y = yout[1]
+    star1.vx = yout[2]
+    star1.vy = yout[3]
+    star2.x = yout[4]
+    star2.y = yout[5]
+    star2.vx = yout[6]
+    star2.vy = yout[7]
 
 
+def func(yin, star1, star2, time):
     # From the updated coordinates, compute the new force between star1 and star2
     # Then calculate the x- and y- components of the force 
  
@@ -67,6 +78,17 @@ def update(dt, star1, star2):
     star2.ay = -fy/star2.mass
 
 
+    N = np.size(yin)
+    k = np.zeros(N)
+    k[0] = yin[2] # vx1
+    k[1] = yin[3] # vy1
+    k[2] = star1.ax
+    k[3] = star1.ay
+    k[4] = yin[6] # vx2
+    k[5] = yin[7] # vy2
+    k[6] = star2.ax
+    k[7] = star2.ay
+    return k
 
 
 class Star:

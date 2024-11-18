@@ -1,5 +1,13 @@
 import numpy as np
-from solver import rk2
+import sys
+import pathlib
+
+# Get the path to the current script (main.py)
+current_script_path = pathlib.Path(__file__).resolve()
+project_dir = current_script_path.parents[1]
+package_dir_1 = project_dir / 'lecture_10'
+sys.path.append(str(package_dir_1))
+from solver_10 import rk2
 
 def func(yin: list, t: float) -> np.ndarray:
     N = np.size(yin)
