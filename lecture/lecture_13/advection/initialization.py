@@ -9,8 +9,10 @@ def initialize():
     # initialize the u array
     for i in range(sim.istart, sim.iend+1):
     
-        # top hat function 
-        if sim.x[i] >= 0.1 and sim.x[i] <= 0.2:
-            sim.u[i] = 1.0
-        else:
-            sim.u[i] = 0.01
+        # # top hat function 
+        # if sim.x[i] >= 0.1 and sim.x[i] <= 0.2:
+        #     sim.u[i] = 1.0
+        # else:
+        #     sim.u[i] = 0.01
+
+        sim.u[i] = max(np.exp(-1000 * (sim.x[i] - 0.1)**2), sim.epsilon)

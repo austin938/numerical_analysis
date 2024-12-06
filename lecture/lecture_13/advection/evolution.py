@@ -34,6 +34,7 @@ def update():
         
         FL, FR = flux(i, uold)
 
+        # Finite volume method
         sim.u[i] = uold[i] - sim.dt * (FR - FL) / sim.dx
 
 
@@ -42,12 +43,12 @@ def flux(i, uold):
     if sim.method == 'upwind':
         FL = sim.c * uold[i-1]
         FR = sim.c * uold[i]
-    elif sim.method == 'LF':
+    elif sim.method == 'LF': # Lax-Friedrichs
         FL = sim.c * (uold[i-1] + uold[i]) / 2 - sim.dx * (uold[i] - uold[i-1]) / (2 * sim.dt)
         FR = sim.c * (uold[i] + uold[i+1]) / 2 - sim.dx * (uold[i+1] - uold[i]) / (2 * sim.dt)
-    # elif sim.method == 'LW':
-    #     FL = 
-    #     FR = 
+    elif sim.method == 'LW': # Lax-Wendroff
+        FL = 0.5 * sim.c * (uold[i-1] + uold[i]) - 0.5 * (sim.c**2 * sim.dt / sim.dx) * (uold[i] - uold[i-1])
+        FR = 0.5 * sim.c * (uold[i] + uold[i+1]) - 0.5 * (sim.c**2 * sim.dt / sim.dx) * (uold[i+1] - uold[i]) 
     elif sim.method == 'average':
         FL = sim.c * (uold[i-1] + uold[i]) / 2
         FR = sim.c * (uold[i] + uold[i+1]) / 2

@@ -4,8 +4,8 @@ c      = 1  # velocity
 xmin   = 0.0  # coordinate of left boundary
 xmax   = 1.0  # coordinate of right boundary
 tend   = 0.7  # final time
-# method = "upwind" 
-method = "average"
+epsilon = 1.0e-99 # small number to avoid division by zero
+method = "LW"
 
 nmax   = 500  # number of points in the x direction
 nbuf   = 1    # number of ghost zones for B.C.

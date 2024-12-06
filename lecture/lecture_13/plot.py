@@ -3,9 +3,10 @@ import pandas as pd
 import glob
 import os
 
-method = 'upwind'
-directory = "plot"
-filename = f'{method}.png'
+method = 'LF'
+exercise = '1'
+directory = f"plot_exercise{exercise}"
+filename = f'{method}_exercise{exercise}.png'
 path = f"data_{method}//"
 file_pattern = path + f'*.csv'
 color_cycler = plt.gca()._get_lines.prop_cycler
